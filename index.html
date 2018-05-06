@@ -62,6 +62,94 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-vue组件入门----简单的选项卡组件实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/06/vue组件入门----简单的选项卡组件实现/" class="article-date">
+  <time datetime="2018-05-05T16:19:05.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/06/vue组件入门----简单的选项卡组件实现/">Vue组件入门----简单的选项卡组件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看完Vue官方的组件教程后，通过一个写一个简单的Vue组件来实战一下<br><a href="https://github.com/MeynL/Vue-tab" target="_blank" rel="noopener">源码</a>在这里<br>效果图<br><img src="http://on2mxbd3m.bkt.clouddn.com/111.png" alt="Alt vue-tab"><br>
+        
+          <p class="article-more-link">
+            <a href="/2018/05/06/vue组件入门----简单的选项卡组件实现/#more">更多</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.meynlcss.top/2018/05/06/vue组件入门----简单的选项卡组件实现/" data-id="cjgu86c7j00080svfked5ju08" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue-js/">Vue.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vue组件入门----组件基础" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/06/vue组件入门----组件基础/" class="article-date">
+  <time datetime="2018-05-05T16:19:05.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/06/vue组件入门----组件基础/">Vue组件入门----组件基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Vue官网上对于组件的教程还是比较详细的，其中内容比较多，这里把重要的内容梳理一下</p>
+<h2 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h2><p>组件注册即使用component来创建组件，注册分为局部注册和全局注册两种:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'global-component'</span>,&#123;</span><br><span class="line">  template:<span class="string">'&lt;h2&gt;全局注册组件&lt;/h2&gt;'</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> localComponent = &#123;</span><br><span class="line">  template:<span class="string">'&lt;h2&gt;局部注册组件&lt;/h2&gt;'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el:<span class="string">'#app'</span>,</span><br><span class="line">  components:&#123;</span><br><span class="line">    <span class="string">'local-component'</span>:localComponent</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">global-component</span>&gt;</span><span class="tag">&lt;/<span class="name">global-component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">local-component</span>&gt;</span><span class="tag">&lt;/<span class="name">local-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/05/06/vue组件入门----组件基础/#more">更多</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.meynlcss.top/2018/05/06/vue组件入门----组件基础/" data-id="cjgv53nle000c0svfqo806xry" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue-js/">Vue.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-用canvas做个俄罗斯方块" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/04/24/用canvas做个俄罗斯方块/" class="article-date">
@@ -94,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://blog.meynlcss.top/2018/04/24/用canvas做个俄罗斯方块/" data-id="cjgszjouq0000lgvfwu5rn68m" class="article-share-link">Share</a>
+      <a data-url="http://blog.meynlcss.top/2018/04/24/用canvas做个俄罗斯方块/" data-id="cjgu6z2z800000svfkn8pl0s6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/不务正业/">不务正业</a></li></ul>
@@ -118,7 +206,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/不务正业/">不务正业</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不务正业/">不务正业</a></li></ul>
     </div>
   </div>
 
@@ -128,7 +216,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/不务正业/" style="font-size: 10px;">不务正业</a>
+      <a href="/tags/Vue-js/" style="font-size: 20px;">Vue.js</a> <a href="/tags/不务正业/" style="font-size: 10px;">不务正业</a>
     </div>
   </div>
 
@@ -137,7 +225,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
     </div>
   </div>
 
@@ -148,6 +236,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/05/06/vue组件入门----简单的选项卡组件实现/">Vue组件入门----简单的选项卡组件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/vue组件入门----组件基础/">Vue组件入门----组件基础</a>
+          </li>
         
           <li>
             <a href="/2018/04/24/用canvas做个俄罗斯方块/">用canvas做个俄罗斯方块</a>
