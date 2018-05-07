@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>vue基础----从一段代码快速了解vue生命周期和钩子 | MeynL&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我们先从官网给出的vue生命周期图看起:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue基础----从一段代码快速了解vue生命周期和钩子">
+<meta property="og:url" content="blog.meynlcss.top/2018/05/06/vue基础----从一段代码快速了解vue生命周期和钩子/index.html">
+<meta property="og:site_name" content="MeynL&#39;s Blog">
+<meta property="og:description" content="我们先从官网给出的vue生命周期图看起:">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="https://cn.vuejs.org/images/lifecycle.png">
+<meta property="og:updated_time" content="2018-05-07T15:20:58.865Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue基础----从一段代码快速了解vue生命周期和钩子">
+<meta name="twitter:description" content="我们先从官网给出的vue生命周期图看起:">
+<meta name="twitter:image" content="https://cn.vuejs.org/images/lifecycle.png">
+  
+    <link rel="alternate" href="/atom.xml" title="MeynL&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">MeynL&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="blog.meynlcss.top"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vue基础----从一段代码快速了解vue生命周期和钩子" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/06/vue基础----从一段代码快速了解vue生命周期和钩子/" class="article-date">
+  <time datetime="2018-05-06T14:58:10.000Z" itemprop="datePublished">2018-05-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vue基础----从一段代码快速了解vue生命周期和钩子
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们先从官网给出的vue生命周期图看起:<br><a id="more"></a></p>
+<p><img src="https://cn.vuejs.org/images/lifecycle.png" alt="Alt vue生命周期"></p>
+<p>vue的生命周期可以概括为：<br>1.<code>create</code>创建<br>2.<code>mount</code>挂载<br>3.<code>update</code>更新<br>4.<code>destroy</code>销毁</p>
+<p>vue为这四种状态的前后都提供了钩子:<code>beforeXXX</code>状态开始前以及<code>xxxed</code>状态完成<br>其中官方给出的钩子中还包含了<code>activated</code>keep-alive组件和<code>errorCaptured</code>捕获子孙组件错误的钩子，这里就不多做叙述了。</p>
+<p>下面用一段代码来帮了解以下vue在这四个主要状态中都做了什么:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123;msg&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"updateThis"</span>&gt;</span>更新数据<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"destroyThis"</span>&gt;</span>销毁<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  data:&#123;</span><br><span class="line">    msg: <span class="string">'Welcome to Vue.js App'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  methods:&#123;</span><br><span class="line">    destroyThis()&#123;</span><br><span class="line">      <span class="keyword">this</span>.$destroy();</span><br><span class="line">    &#125;,</span><br><span class="line">    updateThis()&#123;</span><br><span class="line">      <span class="keyword">this</span>.msg = <span class="string">'update!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeCreate()&#123;  <span class="comment">// vue实例创建前</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'beforeCreate'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  created()&#123;   <span class="comment">// 创建完成</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'created'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeMount()&#123; <span class="comment">// 挂载前</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'beforMount'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted()&#123;  <span class="comment">// 挂载完成</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'mounted'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeUpdate()&#123;  <span class="comment">// 更新前</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'beforeUpdate'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  updated()&#123;    <span class="comment">// 更新完成</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'updated'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeDestroy()&#123; <span class="comment">// 销毁前</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'beforeDestroy'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;,</span><br><span class="line">  destroyed()&#123;  <span class="comment">// 销毁完成</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'destroyed'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$el:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$el);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'$data:'</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.$data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>代码运行起来后我们可以发现:</p>
+<ul>
+<li><code>create</code> 状态完成了data数据的初始化</li>
+<li><code>mount</code> 状态完成了$el的初始化</li>
+<li>vue实例数据发生改变时触发<code>update</code></li>
+<li>vue实例触发<code>$destroy</code>时销毁实例</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="blog.meynlcss.top/2018/05/06/vue基础----从一段代码快速了解vue生命周期和钩子/" data-id="cjgwdfp3n0002csvfem14ts0x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/06/vue组件入门----简单的选项卡组件实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue组件入门----简单的选项卡组件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/不务正业/">不务正业</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Vue-js/" style="font-size: 20px;">Vue.js</a> <a href="/tags/不务正业/" style="font-size: 10px;">不务正业</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/05/06/vue基础----从一段代码快速了解vue生命周期和钩子/">vue基础----从一段代码快速了解vue生命周期和钩子</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/vue组件入门----简单的选项卡组件实现/">Vue组件入门----简单的选项卡组件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/06/vue组件入门----组件基础/">Vue组件入门----组件基础</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/24/用canvas做个俄罗斯方块/">用canvas做个俄罗斯方块</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 MeynL<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
