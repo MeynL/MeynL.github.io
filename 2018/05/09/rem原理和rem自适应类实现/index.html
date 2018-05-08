@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="rem是做移动端适配布局的总要知识点，只停留在会用的阶段肯定是不够的，理解其中的原理才是王道。 温馨提示~ 本文内容参照@颜海镜的博文以及YDUIrem自适应类源码及文档。想了解更多内容请翻阅他们的文章，本文仅对rem原理及类库实现做分析。">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rem原理和rem自适应类实现">
+<meta property="og:url" content="blog.meynlcss.top/2018/05/09/rem原理和rem自适应类实现/index.html">
+<meta property="og:site_name" content="MeynL&#39;s 博客">
+<meta property="og:description" content="rem是做移动端适配布局的总要知识点，只停留在会用的阶段肯定是不够的，理解其中的原理才是王道。 温馨提示~ 本文内容参照@颜海镜的博文以及YDUIrem自适应类源码及文档。想了解更多内容请翻阅他们的文章，本文仅对rem原理及类库实现做分析。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T20:17:17.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="rem原理和rem自适应类实现">
+<meta name="twitter:description" content="rem是做移动端适配布局的总要知识点，只停留在会用的阶段肯定是不够的，理解其中的原理才是王道。 温馨提示~ 本文内容参照@颜海镜的博文以及YDUIrem自适应类源码及文档。想了解更多内容请翻阅他们的文章，本文仅对rem原理及类库实现做分析。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="blog.meynlcss.top/2018/05/09/rem原理和rem自适应类实现/"/>
+
+
+
+
+
+  <title>rem原理和rem自适应类实现 | MeynL's 博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MeynL's 博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="blog.meynlcss.top/2018/05/09/rem原理和rem自适应类实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="MeynL">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MeynL's 博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">rem原理和rem自适应类实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T01:47:04+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>rem是做移动端适配布局的总要知识点，只停留在会用的阶段肯定是不够的，理解其中的原理才是王道。</p>
+<h2 id="温馨提示"><a href="#温馨提示" class="headerlink" title="温馨提示~"></a>温馨提示~</h2><ul>
+<li>本文内容参照<a href="https://zhuanlan.zhihu.com/p/30413803" target="_blank" rel="noopener">@颜海镜的博文</a>以及<a href="http://vue.ydui.org/docs/#/flexible" target="_blank" rel="noopener">YDUI</a>rem自适应类源码及文档。想了解更多内容请翻阅他们的文章，本文仅对rem原理及类库实现做分析。</li>
+</ul>
+<a id="more"></a>
+<h2 id="rem是什么"><a href="#rem是什么" class="headerlink" title="rem是什么"></a>rem是什么</h2><p>rem是一个css单位，与em类似，是一个根据根元素(<code>&lt;html&gt;</code>)的<code>font-size</code>大小而的相对单位。<br>rem作用于非根元素时，相对于根元素字体大小；rem作用于根元素字体大小时，相对于其出初始字体大小。<br>也就是说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">html&#123;</span><br><span class="line">  font-size:16px;  /* html初始字体大小为16px */</span><br><span class="line">  font-size:2rem;  /* 作用与根元素，字体大小2rem = 2*16px = 32px */</span><br><span class="line">&#125;</span><br><span class="line">p&#123;</span><br><span class="line">  height:4rem;    /* 作用与非根元素，大小为4rem = 4*16px = 64px */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="rem适配布局原理"><a href="#rem适配布局原理" class="headerlink" title="rem适配布局原理"></a>rem适配布局原理</h2><p>由于rem的大小时相对与根元素的字体大小的，因此我们在针对不同的屏幕分辨率，要做不同的适配时，可以仅改变根元素的字体大小来使得页面适配。<br>1rem = 1根元素字体大小，因此在设计图大小为:750px；用户分辨率为500px；的条件下，想让1rem = 设计图的1px；这样的条件下，我们得出根元素font-size应为：<code>500/750≈0.6667</code>;<br><code>font-size=0.6667</code>这样的设定显然是我们不想看到的，因此我们把它放大100倍，让它看起来正常一点:<code>font-size=66.67</code>，与此同时1rem应等于100px。<br>因此我们得出一个<code>font-size</code>的计算公式:<code>font-size = 屏幕分辨率*100/设计图大小</code>。然后我们在做页面时，就可以以1rem=100px的换算方式做UI了。</p>
+<h2 id="rem类库实现"><a href="#rem类库实现" class="headerlink" title="rem类库实现"></a>rem类库实现</h2><p>类库实现其实就是用来根据屏幕分辨率改变根元素的font-size，font-size有两种主要方法：css 和 js。<br>用css的主要方法是用@media 的方式来做适配，但由于目前市面上的手机屏幕分辨率过多。用css的方式过于繁琐，因此采用js的方式较为稳妥。<br>meynl.flexibel.js:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">!function(win,doc)&#123;</span><br><span class="line">  var elm = doc.documentElement;</span><br><span class="line">  var docWidth = 750;  // 设计图宽度</span><br><span class="line">  var maxClient = 800; // 最大放大宽度</span><br><span class="line">  var minClient = 320; // 最小缩小宽度</span><br><span class="line">  var setFontSize = function()&#123;</span><br><span class="line">    var clientWidth = doc.clientWidth;</span><br><span class="line"></span><br><span class="line">    maxClient = Math.min(clientWidth,maxClient);  // 超过最大时不再放大</span><br><span class="line">    maxClient = Math.max(clientWidth,minClient);  // 小过最小时不再缩小</span><br><span class="line"></span><br><span class="line">    elm.style.fontSize = (clientWidth*100)/docWidth + &apos;px&apos;;</span><br><span class="line">  &#125;</span><br><span class="line">    doc.addEventListener(&apos;DOMContentLoaded&apos;, setFontSize);</span><br><span class="line">    win.addEventListener(&apos;orientationchange&apos; in win ? &apos;orientationchange&apos; : &apos;resize&apos;, setFontSize);</span><br><span class="line">&#125;(window,document)</span><br></pre></td></tr></table></figure></p>
+<p>这就是一个rem自适应类库啦，其实实现原理很简单，还是要看自己对与rem的理解。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/08/jQuery基础----bind,on,live,delegate的区别/" rel="next" title="jQuery基础----bind,on,live,delegate的区别">
+                <i class="fa fa-chevron-left"></i> jQuery基础----bind,on,live,delegate的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="MeynL" />
+            
+              <p class="site-author-name" itemprop="name">MeynL</p>
+              <p class="site-description motion-element" itemprop="description">不善言辞的中度拖延症coder</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MeynL/" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:724610695@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#温馨提示"><span class="nav-number">1.</span> <span class="nav-text">温馨提示~</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rem是什么"><span class="nav-number">2.</span> <span class="nav-text">rem是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rem适配布局原理"><span class="nav-number">3.</span> <span class="nav-text">rem适配布局原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rem类库实现"><span class="nav-number">4.</span> <span class="nav-text">rem类库实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MeynL</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
